@@ -1,0 +1,96 @@
+import java.util.Scanner;
+
+class Customer {
+    String name;
+    int cid;
+    int accno;
+    String branch;
+    String bank;
+    int inibal = 0;
+    int mypin = 5566;
+
+    public Customer(String name, int cid, int accno, String branch, String bank) {
+        this.name = name;
+        this.cid = cid;
+        this.accno = accno;
+        this.branch = branch;
+        this.bank = bank;
+    }
+
+    public void display() {
+        System.out.println("\n----- Customer Details -----");
+        System.out.println("Name: " + this.name);
+        System.out.println("Customer ID: " + this.cid);
+        System.out.println("Account No: " + this.accno);
+        System.out.println("Branch: " + this.branch);
+        System.out.println("Bank: " + this.bank);
+    }
+
+    public void deposit(int amount) {
+        if (amount > 0) {
+            inibal += amount;
+            System.out.println("Deposit Successful!");
+        } else {
+            System.out.println("Invalid amount.");
+        }
+    }
+
+    public void withdraw(int pin, int amount) {
+        if (pin == mypin && amount <= inibal) {
+            inibal -= amount;
+            System.out.println("Withdrawal Successful!");
+        } else {
+            System.out.println("Incorrect PIN or Insufficient Balance.");
+        }
+    }
+
+    public void checkBalance(int pin) {
+        if (pin == mypin) {
+            System.out.println("Balance is: ₹" + inibal);
+        } else {
+            System.out.println("Sorry, Incorrect PIN.");
+        }
+    }
+
+    public void changePin(int pin, Scanner sc) {
+        if (pin == mypin) {
+            System.out.print("Enter your new PIN: ");
+            int newpin = sc.nextInt();
+            mypin = newpin;
+            System.out.println("PIN changed successfully to: " + mypin);
+        } else {
+            System.out.println("Incorrect current PIN.");
+        }
+    }
+}
+
+public class AtmApplication {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+    
+        System.out.print("Enter your name: ");
+        String name = sc.nextLine();
+        System.out.print("Enter branch: ");
+        String branch = sc.nextLine();
+        System.out.print("Enter bank: ");
+        String bank = sc.nextLine();
+        System.out.print("Enter customer ID: ");
+        int cid = sc.nextInt();
+        System.out.print("Enter account number: ");
+        int accno = sc.nextInt();
+
+        
+        Customer c1 = new Customer(name, cid, accno, branch, bank);
+        c1.display();
+
+        
+        c1.deposit(50000);
+        c1.withdraw(5566, 25000);
+        c1.checkBalance(5566);
+        c1.changePin(5566, sc); 
+        c1.checkBalance(8899); 
+
+        sc.close(); 
+    }
+}
